@@ -92,7 +92,7 @@ module ActiveMerchant
       US_TERRITORIES_TREATED_AS_COUNTRIES = ["AS", "FM", "GU", "MH", "MP", "PW", "PR", "VI"]
       
       def requirements
-        [:key, :login, :password]
+        [:key, :user_id, :password]
       end
       
       def find_rates(origin, destination, packages, options={})
@@ -130,7 +130,7 @@ module ActiveMerchant
       def build_access_request
         xml_request = XmlNode.new('AccessRequest') do |access_request|
           access_request << XmlNode.new('AccessLicenseNumber', @options[:key])
-          access_request << XmlNode.new('UserId', @options[:login])
+          access_request << XmlNode.new('UserId', @options[:user_id])
           access_request << XmlNode.new('Password', @options[:password])
         end
         xml_request.to_s

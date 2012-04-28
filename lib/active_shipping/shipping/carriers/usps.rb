@@ -4,10 +4,10 @@ require 'cgi'
 module ActiveMerchant
   module Shipping
     
-    # After getting an API login from USPS (looks like '123YOURNAME456'),
+    # After getting an API user_id from USPS (looks like '123YOURNAME456'),
     # run the following test:
     # 
-    # usps = USPS.new(:login => '123YOURNAME456', :test => true)
+    # usps = USPS.new(:user_id => '123YOURNAME456', :test => true)
     # usps.valid_credentials?
     #
     # This will send a test request to the USPS test servers, which they ask you
@@ -137,7 +137,7 @@ module ActiveMerchant
       end
       
       def requirements
-        [:login]
+        [:user_id]
       end
       
       def find_rates(origin, destination, packages, options = {})
@@ -184,7 +184,7 @@ module ActiveMerchant
       
       # Once the address verification API is implemented, remove this and have valid_credentials? build the request using that instead.
       def canned_address_verification_works?
-        request = "%3CCarrierPickupAvailabilityRequest%20USERID=%22#{URI.encode(@options[:login])}%22%3E%20%0A%3CFirmName%3EABC%20Corp.%3C/FirmName%3E%20%0A%3CSuiteOrApt%3ESuite%20777%3C/SuiteOrApt%3E%20%0A%3CAddress2%3E1390%20Market%20Street%3C/Address2%3E%20%0A%3CUrbanization%3E%3C/Urbanization%3E%20%0A%3CCity%3EHouston%3C/City%3E%20%0A%3CState%3ETX%3C/State%3E%20%0A%3CZIP5%3E77058%3C/ZIP5%3E%20%0A%3CZIP4%3E1234%3C/ZIP4%3E%20%0A%3C/CarrierPickupAvailabilityRequest%3E%0A"
+        request = "%3CCarrierPickupAvailabilityRequest%20USERID=%22#{URI.encode(@options[:user_id])}%22%3E%20%0A%3CFirmName%3EABC%20Corp.%3C/FirmName%3E%20%0A%3CSuiteOrApt%3ESuite%20777%3C/SuiteOrApt%3E%20%0A%3CAddress2%3E1390%20Market%20Street%3C/Address2%3E%20%0A%3CUrbanization%3E%3C/Urbanization%3E%20%0A%3CCity%3EHouston%3C/City%3E%20%0A%3CState%3ETX%3C/State%3E%20%0A%3CZIP5%3E77058%3C/ZIP5%3E%20%0A%3CZIP4%3E1234%3C/ZIP4%3E%20%0A%3C/CarrierPickupAvailabilityRequest%3E%0A"
         # expected_hash = {"CarrierPickupAvailabilityResponse"=>{"City"=>"HOUSTON", "Address2"=>"1390 Market Street", "FirmName"=>"ABC Corp.", "State"=>"TX", "Date"=>"3/1/2004", "DayOfWeek"=>"Monday", "Urbanization"=>nil, "ZIP4"=>"1234", "ZIP5"=>"77058", "CarrierRoute"=>"C", "SuiteOrApt"=>"Suite 777"}}
         xml = REXML::Document.new(commit(:test, request, true))
         xml.get_text('/CarrierPickupAvailabilityResponse/City').to_s == 'HOUSTON' &&
@@ -201,7 +201,7 @@ module ActiveMerchant
       #                                  "machinability" entirely.
       def build_us_rate_request(packages, origin_zip, destination_zip, options={})
         packages = Array(packages)
-        request = XmlNode.new('RateV4Request', :USERID => @options[:login]) do |rate_request|
+        request = XmlNode.new('RateV4Request', :USERID => @options[:user_id]) do |rate_request|
           packages.each_with_index do |p,id|
             rate_request << XmlNode.new('Package', :ID => id.to_s) do |package|
               package << XmlNode.new('Service', US_SERVICES[options[:service] || :all])
@@ -238,7 +238,7 @@ module ActiveMerchant
       #                                 Defaults to :package.
       def build_world_rate_request(packages, destination)
         country = COUNTRY_NAME_CONVERSIONS[destination.country.code(:alpha2).value] || destination.country.name
-        request = XmlNode.new('IntlRateV2Request', :USERID => @options[:login]) do |rate_request|
+        request = XmlNode.new('IntlRateV2Request', :USERID => @options[:user_id]) do |rate_request|
           packages.each_index do |id|
             p = packages[id]
             rate_request << XmlNode.new('Package', :ID => id.to_s) do |package|
