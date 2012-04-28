@@ -4,14 +4,14 @@ class FedExTest < Test::Unit::TestCase
   def setup
     @packages               = TestFixtures.packages
     @locations              = TestFixtures.locations
-    @carrier                = FedEx.new(:key => '1111', :password => '2222', :account => '3333', :login => '4444')
+    @carrier                = FedEx.new(:key => '1111', :password => '2222', :account => '3333', :meter => '4444')
   end
   
   def test_initialize_options_requirements
     assert_raises ArgumentError do FedEx.new end
-    assert_raises ArgumentError do FedEx.new(:login => '999999999') end
+    assert_raises ArgumentError do FedEx.new(:meter => '999999999') end
     assert_raises ArgumentError do FedEx.new(:password => '7777777') end
-    assert_nothing_raised { FedEx.new(:key => '999999999', :password => '7777777', :account => '123', :login => '123')}
+    assert_nothing_raised { FedEx.new(:key => '999999999', :password => '7777777', :account => '123', :meter => '123')}
   end
   
   # def test_no_rates_response
