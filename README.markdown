@@ -25,6 +25,13 @@ Active Shipping is currently being used and improved in a production environment
 
 ## Sample Usage
 
+### Signup a developer account with USPS, FedEx, UPS, etc
+
+Go to the respective pages above and follow through their documentation for 
+signing up your application. Some of them will give you developer_keys, passwords, meter numbers, etc.
+
+*REMEMBER THIS INFO*. Not all is sent back in an email (Fedex doesn't resend your developer_key when you sign up)
+
 ### Compare rates from different carriers
 
     require 'active_shipping'
