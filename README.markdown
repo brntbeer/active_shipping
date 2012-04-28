@@ -60,7 +60,7 @@ signing up your application. Some of them will give you developer_keys, password
                                 :postal_code => 'K1P 1J1'})
                               
     # Find out how much it'll be.
-    ups = UPS.new(:login => 'auntjudy', :password => 'secret', :key => 'xml-access-key')
+    ups = UPS.new(:user_id => 'auntjudy', :password => 'secret', :key => 'xml-access-key')
     response = ups.find_rates(origin, destination, packages)
   
     ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
@@ -71,7 +71,7 @@ signing up your application. Some of them will give you developer_keys, password
     #     ["UPS Worldwide Express Plus", 14502]]
   
     # Check out USPS for comparison...
-    usps = USPS.new(:login => 'developer-key')
+    usps = USPS.new(:user_id => 'developer-key')
     response = usps.find_rates(origin, destination, packages)
   
     usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
@@ -84,7 +84,7 @@ signing up your application. Some of them will give you developer_keys, password
     
 ### Track a FedEx package
 
-    fedex = FedEx.new(:key => "xxxxxxxx", :account => 111111111, :login => 12345678, :password => 'xxxxxxxxx', :test => true)
+    fedex = FedEx.new(:key => "xxxxxxxx", :account => 111111111, :meter => 12345678, :password => 'xxxxxxxxx', :test => true)
     tracking_info = fedex.find_tracking_info('tracking-number', :carrier_code => 'fedex_ground') # Ground package
     
     tracking_info.shipment_events.each do |event|
