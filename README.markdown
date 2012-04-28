@@ -49,15 +49,15 @@ signing up your application. Some of them will give you developer_keys, password
     ]
   
     # You live in Beverly Hills, he lives in Ottawa
-    origin = Location.new(      :country => 'US',
+    origin = Location.new(      {:country => 'US',
                                 :state => 'CA',
                                 :city => 'Beverly Hills',
-                                :zip => '90210')
+                                :zip => '90210'})
   
-    destination = Location.new( :country => 'CA',
+    destination = Location.new( {:country => 'CA',
                                 :province => 'ON',
                                 :city => 'Ottawa',
-                                :postal_code => 'K1P 1J1')
+                                :postal_code => 'K1P 1J1'})
                               
     # Find out how much it'll be.
     ups = UPS.new(:login => 'auntjudy', :password => 'secret', :key => 'xml-access-key')
