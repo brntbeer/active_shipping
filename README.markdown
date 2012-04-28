@@ -84,7 +84,7 @@ signing up your application. Some of them will give you developer_keys, password
     
 ### Track a FedEx package
 
-    fedex = FedEx.new(:login => '999999999', :password => '7777777')
+    fedex = FedEx.new(:key => "xxxxxxxx", :account => 111111111, :login => 12345678, :password => 'xxxxxxxxx', :test => true)
     tracking_info = fedex.find_tracking_info('tracking-number', :carrier_code => 'fedex_ground') # Ground package
     
     tracking_info.shipment_events.each do |event|
