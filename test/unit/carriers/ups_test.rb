@@ -7,7 +7,7 @@ class UPSTest < Test::Unit::TestCase
     @locations = TestFixtures.locations
     @carrier   = UPS.new(
                    :key => 'key',
-                   :login => 'login',
+                   :user_id => 'login',
                    :password => 'password'
                  )
     @tracking_response = xml_fixture('ups/shipment_from_tiger_direct')
@@ -15,10 +15,10 @@ class UPSTest < Test::Unit::TestCase
   
   def test_initialize_options_requirements
     assert_raises(ArgumentError) { UPS.new }
-    assert_raises(ArgumentError) { UPS.new(:login => 'blah', :password => 'bloo') }
-    assert_raises(ArgumentError) { UPS.new(:login => 'blah', :key => 'kee') }
+    assert_raises(ArgumentError) { UPS.new(:user_id => 'blah', :password => 'bloo') }
+    assert_raises(ArgumentError) { UPS.new(:user_id => 'blah', :key => 'kee') }
     assert_raises(ArgumentError) { UPS.new(:password => 'bloo', :key => 'kee') }
-    assert_nothing_raised { UPS.new(:login => 'blah', :password => 'bloo', :key => 'kee') }
+    assert_nothing_raised { UPS.new(:user_id => 'blah', :password => 'bloo', :key => 'kee') }
   end
   
   def test_find_tracking_info_should_return_a_tracking_response

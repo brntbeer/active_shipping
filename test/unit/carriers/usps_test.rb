@@ -5,7 +5,7 @@ class USPSTest < Test::Unit::TestCase
   def setup
     @packages  = TestFixtures.packages
     @locations = TestFixtures.locations
-    @carrier   = USPS.new(:login => 'login')
+    @carrier   = USPS.new(:user_id => 'login')
   end
   
   def test_size_codes
@@ -33,7 +33,7 @@ class USPSTest < Test::Unit::TestCase
   
   def test_initialize_options_requirements
     assert_raises ArgumentError do USPS.new end
-    assert_nothing_raised { USPS.new(:login => 'blah')}
+    assert_nothing_raised { USPS.new(:user_id => 'blah')}
   end
 
   def test_parse_international_rate_response
